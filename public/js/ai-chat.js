@@ -1,18 +1,32 @@
 // AI Chat Integration with Gemini API
 class AIChat {
     constructor() {
-        this.apiKey = 'AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY';
+        this.apiKey = null;
         this.apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         this.chatHistory = [];
         this.isLoading = false;
-        this.testMode = true; // Set to true to test without API
+        this.testMode = false; // Set to true to test without API
         
         this.init();
     }
     
-    init() {
+    async init() {
         this.setupEventListeners();
         this.setupQuickActions();
+        await this.loadApiKey();
+    }
+    
+    async loadApiKey() {
+        try {
+            const baseUrl = window.location.port === '5500' ? 'http://localhost:3001' : '';
+            const response = await fetch(`${baseUrl}/api/config`);
+            const data = await response.json();
+            this.apiKey = data.geminiApiKey;
+            console.log('API Key loaded successfully');
+        } catch (error) {
+            console.error('Failed to load API key:', error);
+            this.testMode = true; // Fallback to test mode
+        }
     }
     
     setupEventListeners() {
@@ -84,7 +98,7 @@ class AIChat {
         console.log('Getting AI response for:', message);
         
         // Test mode - provide immediate responses without API
-        if (this.testMode) {
+        if (this.testMode || !this.apiKey) {
             return this.getTestResponse(message);
         }
         
@@ -177,6 +191,14 @@ User's question: ${message}`;
                     }
                 }
                 
+                // If there are no papers available, inform the user clearly
+                if (relevantPapers.length === 0) {
+                    const noPapersNote = (window.app && Array.isArray(window.app.papers) && window.app.papers.length === 0)
+                        ? "\n\nNote: We currently don't have any question papers in the repository. This website is in testing to support users. You can upload a paper or ask study questions!"
+                        : "\n\nI couldn't find matching papers right now. You can upload one or ask for study help.";
+                    aiResponse += noPapersNote;
+                }
+                
                 return aiResponse;
             } else {
                 console.error('No valid response from Gemini:', data);
@@ -191,7 +213,10 @@ User's question: ${message}`;
             } else if (message.toLowerCase().includes('help')) {
                 return "I'm here to help! I can assist you with:\n\n• Finding question papers by subject, year, or university\n• Providing solutions to academic problems\n• Explaining concepts and topics\n• Suggesting study materials\n\nWhat specific help do you need?";
             } else {
-                return "I'm having trouble connecting to the AI service right now, but I'm still here to help! You can ask me about question papers, academic topics, or study guidance. What would you like to know?";
+                const testingNote = (window.app && Array.isArray(window.app.papers) && window.app.papers.length === 0)
+                    ? " Also, there are currently no question papers in the repository as this website is in testing to support users. You can upload a paper or ask for study help."
+                    : "";
+                return "I'm having trouble connecting to the AI service right now, but I'm still here to help! You can ask me about question papers, academic topics, or study guidance. What would you like to know?" + testingNote;
             }
         }
     }

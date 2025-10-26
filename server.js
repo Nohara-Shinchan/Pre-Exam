@@ -3,10 +3,11 @@ const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const config = require('./config');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = config.port;
 
 // Middleware
 app.use(cors());
@@ -33,7 +34,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 10 * 1024 * 1024 // 10MB limit
+        fileSize: config.maxFileSize
     },
     fileFilter: (req, file, cb) => {
         const allowedTypes = /jpeg|jpg|png|pdf/;
@@ -54,6 +55,14 @@ let questionPapers = [];
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Get configuration (API keys, etc.)
+app.get('/api/config', (req, res) => {
+    res.json({
+        geminiApiKey: config.geminiApiKey,
+        nodeEnv: config.nodeEnv
+    });
 });
 
 // Get all question papers

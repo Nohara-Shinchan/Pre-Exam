@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Question Paper Repository - Interactive Learning Hub</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Three.js Background Canvas -->
+    <canvas id="three-canvas"></canvas>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Question Papers...</h2>
+            <p>Preparing your learning experience</p>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>QuestionHub</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#browse" class="nav-link">Browse</a>
+                <a href="#upload" class="nav-link">Upload</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Discover & Share</span>
+                <span class="title-line">Question Papers</span>
+                <span class="title-accent">Effortlessly</span>
+            </h1>
+            <p class="hero-description">
+                Your ultimate repository for academic question papers. Upload, browse, and download 
+                question papers from various subjects, universities, and years.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('browse')">
+                    <i class="fas fa-search"></i>
+                    Browse Papers
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToSection('upload')">
+                    <i class="fas fa-upload"></i>
+                    Upload Paper
+                </button>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number" data-target="0">0</div>
+                <div class="stat-label">Question Papers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="0">0</div>
+                <div class="stat-label">Downloads</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="0">0</div>
+                <div class="stat-label">Universities</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Search & Filter Section -->
+    <section id="browse" class="browse-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Browse Question Papers</h2>
+                <p class="section-description">Find the perfect question paper for your studies</p>
+            </div>
+            
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search by title, subject, or university...">
+                </div>
+                
+                <div class="filter-container">
+                    <select id="subject-filter" class="filter-select">
+                        <option value="">All Subjects</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="business">Business</option>
+                        <option value="medicine">Medicine</option>
+                    </select>
+                    
+                    <select id="year-filter" class="filter-select">
+                        <option value="">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    
+                    <select id="semester-filter" class="filter-select">
+                        <option value="">All Semesters</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="papers-grid" class="papers-grid">
+                <!-- Question papers will be dynamically loaded here -->
+            </div>
+            
+            <div id="loading-papers" class="loading-papers">
+                <div class="loading-spinner"></div>
+                <p>Loading question papers...</p>
+            </div>
+            
+            <div id="no-papers" class="no-papers" style="display: none;">
+                <i class="fas fa-file-alt"></i>
+                <h3>No Question Papers Found</h3>
+                <p>Try adjusting your search criteria or upload a new question paper.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Upload Section -->
+    <section id="upload" class="upload-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Upload Question Paper</h2>
+                <p class="section-description">Share your question papers with the community</p>
+            </div>
+            
+            <div class="upload-container">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop Your Question Paper</h3>
+                        <p>or <span class="upload-link">browse files</span></p>
+                        <div class="upload-formats">
+                            <span class="format-tag">PDF</span>
+                            <span class="format-tag">JPG</span>
+                            <span class="format-tag">PNG</span>
+                        </div>
+                    </div>
+                    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                </div>
+                
+                <form id="upload-form" class="upload-form">
+                    <div class="form-group">
+                        <label for="paper-title">Paper Title *</label>
+                        <input type="text" id="paper-title" name="title" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paper-subject">Subject *</label>
+                            <select id="paper-subject" name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="physics">Physics</option>
+                                <option value="chemistry">Chemistry</option>
+                                <option value="computer-science">Computer Science</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="business">Business</option>
+                                <option value="medicine">Medicine</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paper-year">Year *</label>
+                            <input type="number" id="paper-year" name="year" min="2000" max="2024" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paper-semester">Semester</label>
+                            <select id="paper-semester" name="semester">
+                                <option value="">Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paper-university">University</label>
+                            <input type="text" id="paper-university" name="university" placeholder="e.g., MIT, Stanford">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-upload">
+                        <i class="fas fa-upload"></i>
+                        Upload Question Paper
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About QuestionHub</h2>
+                    <p class="about-description">
+                        QuestionHub is a revolutionary platform designed to make academic resources 
+                        more accessible to students worldwide. Our mission is to create a centralized 
+                        repository where students can easily find, share, and access question papers 
+                        from various educational institutions.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-search"></i>
+                            <h3>Smart Search</h3>
+                            <p>Find question papers quickly with our advanced search and filter system.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-upload"></i>
+                            <h3>Easy Upload</h3>
+                            <p>Upload PDF and image files effortlessly with our drag-and-drop interface.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Mobile Friendly</h3>
+                            <p>Access question papers on any device with our responsive design.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Secure & Reliable</h3>
+                            <p>Your files are safe with our secure hosting and backup systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>QuestionHub</h3>
+                    <p>Empowering students with accessible academic resources.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#browse">Browse</a></li>
+                        <li><a href="#upload">Upload</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 QuestionHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Modal for PDF/Image Viewer -->
+    <div id="viewer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Question Paper Viewer</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="pdf-viewer" class="viewer-container"></div>
+                <div id="image-viewer" class="viewer-container" style="display: none;">
+                    <img id="viewer-image" src="" alt="Question Paper">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="downloadPaper()">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+                <button class="btn btn-primary" onclick="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/three-background.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

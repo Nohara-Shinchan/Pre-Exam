@@ -103,44 +103,61 @@
                 <p class="section-description">Find the perfect question paper for your studies</p>
             </div>
             
-            <div class="search-filter-container">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="search-input" placeholder="Search by title, subject, or university...">
+            <div class="ai-chat-container">
+                <div class="ai-chat-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="ai-title">
+                        <h3>AI Question Paper Assistant</h3>
+                        <p>Ask me anything about question papers, solutions, or academic help!</p>
+                    </div>
                 </div>
                 
-                <div class="filter-container">
-                    <select id="subject-filter" class="filter-select">
-                        <option value="">All Subjects</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="engineering">Engineering</option>
-                        <option value="business">Business</option>
-                        <option value="medicine">Medicine</option>
-                    </select>
-                    
-                    <select id="year-filter" class="filter-select">
-                        <option value="">All Years</option>
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                    </select>
-                    
-                    <select id="semester-filter" class="filter-select">
-                        <option value="">All Semesters</option>
-                        <option value="1">Semester 1</option>
-                        <option value="2">Semester 2</option>
-                        <option value="3">Semester 3</option>
-                        <option value="4">Semester 4</option>
-                        <option value="5">Semester 5</option>
-                        <option value="6">Semester 6</option>
-                        <option value="7">Semester 7</option>
-                        <option value="8">Semester 8</option>
-                    </select>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI assistant. I can help you find question papers, provide solutions, and answer academic questions. What would you like to know?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="debug-panel" id="debug-panel" style="display: none;">
+                        <h4>Debug Information</h4>
+                        <div id="debug-info"></div>
+                        <button onclick="toggleDebug()" class="btn btn-small">Hide Debug</button>
+                    </div>
+                    <div class="chat-input-wrapper">
+                        <input type="text" id="chat-input" placeholder="Ask for question papers, solutions, or academic help...">
+                        <button id="send-button" class="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button onclick="toggleDebug()" class="debug-toggle" title="Debug Info">
+                            <i class="fas fa-bug"></i>
+                        </button>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" data-prompt="Find mathematics question papers">
+                            <i class="fas fa-calculator"></i>
+                            Math Papers
+                        </button>
+                        <button class="quick-action-btn" data-prompt="Show me physics solutions">
+                            <i class="fas fa-atom"></i>
+                            Physics Solutions
+                        </button>
+                        <button class="quick-action-btn" data-prompt="Find computer science question papers">
+                            <i class="fas fa-laptop-code"></i>
+                            CS Papers
+                        </button>
+                        <button class="quick-action-btn" data-prompt="Help me with chemistry problems">
+                            <i class="fas fa-flask"></i>
+                            Chemistry Help
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -342,6 +359,7 @@
     <!-- Scripts -->
     <script src="js/three-background.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/ai-chat.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

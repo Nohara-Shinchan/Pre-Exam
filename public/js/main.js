@@ -251,53 +251,15 @@ class QuestionPaperApp {
     }
     
     setupSearch() {
-        const searchInput = document.getElementById('search-input');
-        const subjectFilter = document.getElementById('subject-filter');
-        const yearFilter = document.getElementById('year-filter');
-        const semesterFilter = document.getElementById('semester-filter');
-        
-        // Search input with debouncing
-        searchInput.addEventListener('input', () => {
-            clearTimeout(this.searchTimeout);
-            this.searchTimeout = setTimeout(() => {
-                this.performSearch();
-            }, 300);
-        });
-        
-        // Filter changes
-        [subjectFilter, yearFilter, semesterFilter].forEach(filter => {
-            filter.addEventListener('change', () => {
-                this.performSearch();
-            });
-        });
+        // AI Chat handles search functionality now
+        // This method is kept for compatibility but functionality moved to AI chat
+        console.log('Search functionality now handled by AI Chat');
     }
     
     async performSearch() {
-        const searchQuery = document.getElementById('search-input').value;
-        const subject = document.getElementById('subject-filter').value;
-        const year = document.getElementById('year-filter').value;
-        const semester = document.getElementById('semester-filter').value;
-        
-        const params = new URLSearchParams();
-        if (searchQuery) params.append('query', searchQuery);
-        if (subject) params.append('subject', subject);
-        if (year) params.append('year', year);
-        if (semester) params.append('semester', semester);
-        
-        try {
-            const baseUrl = window.location.port === '5500' ? 'http://localhost:3001' : '';
-            const response = await fetch(`${baseUrl}/api/search?${params}`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const papers = await response.json();
-            this.displayPapers(papers);
-        } catch (error) {
-            console.error('Search error:', error);
-            this.showError('Search failed: ' + error.message);
-        }
+        // AI Chat now handles search functionality
+        // This method is kept for compatibility
+        console.log('Search functionality now handled by AI Chat');
     }
     
     async loadPapers() {

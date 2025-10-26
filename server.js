@@ -135,6 +135,34 @@ app.post('/api/download/:id', (req, res) => {
     }
 });
 
+// AI Chat endpoint - search papers based on AI query
+app.post('/api/ai-search', (req, res) => {
+    try {
+        const { query } = req.body;
+        
+        if (!query) {
+            return res.status(400).json({ error: 'Query is required' });
+        }
+        
+        // Simple keyword matching for now
+        // In a real implementation, you might use more sophisticated NLP
+        const searchTerms = query.toLowerCase().split(' ');
+        const matchedPapers = questionPapers.filter(paper => {
+            const searchableText = `${paper.title} ${paper.subject} ${paper.university} ${paper.year}`.toLowerCase();
+            return searchTerms.some(term => searchableText.includes(term));
+        });
+        
+        res.json({
+            success: true,
+            papers: matchedPapers,
+            query: query,
+            count: matchedPapers.length
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`📁 Upload directory: ${uploadsDir}`);

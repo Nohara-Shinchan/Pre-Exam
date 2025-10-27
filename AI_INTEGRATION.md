@@ -65,7 +65,7 @@ User receives helpful answer with specific papers
 ### **API Configuration**
 ```javascript
 // Gemini API Settings
-const apiKey = 'AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY';
+const apiKey = 'AIzaSyASB7OoJ8bu5qR2hPJ720idezvyNoGN4kY';
 const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 // Safety Settings
@@ -111,7 +111,7 @@ const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-p
 ### **API Key Setup**
 The Gemini API key is already configured:
 ```javascript
-this.apiKey = 'AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY';
+this.apiKey = 'AIzaSyASB7OoJ8bu5qR2hPJ720idezvyNoGN4kY';
 ```
 
 ### **Customization Options**

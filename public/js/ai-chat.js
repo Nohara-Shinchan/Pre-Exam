@@ -18,7 +18,7 @@ class AIChat {
     
     async loadApiKey() {
         try {
-            const baseUrl = window.location.port === '5500' ? 'http://localhost:3001' : '';
+            const baseUrl = window.location.port === '5500' ? 'http://localhost:3000' : '';
             const response = await fetch(`${baseUrl}/api/config`);
             const data = await response.json();
             this.apiKey = data.geminiApiKey;
@@ -106,7 +106,7 @@ class AIChat {
             // First, try to search for relevant question papers
             let relevantPapers = [];
             try {
-                const baseUrl = window.location.port === '5500' ? 'http://localhost:3001' : '';
+                const baseUrl = window.location.port === '5500' ? 'http://localhost:3000' : '';
                 const searchResponse = await fetch(`${baseUrl}/api/ai-search`, {
                     method: 'POST',
                     headers: {
@@ -136,11 +136,7 @@ class AIChat {
             }
             
             // Simplified prompt for better reliability
-            const systemPrompt = `You are a helpful AI assistant for students. You help with academic questions, question papers, and study guidance. Be friendly and encouraging.
-
-${papersContext}
-
-User's question: ${message}`;
+            const systemPrompt = `You are a helpful AI assistant for students. You help with academic questions, question papers, and study guidance. Be friendly and encouraging.\n\n${papersContext}\n\nUser's question: ${message}`;
             
             console.log('Sending request to Gemini API...');
             

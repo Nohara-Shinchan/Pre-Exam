@@ -4,7 +4,7 @@ module.exports = {
     port: process.env.PORT || 3001,
     
     // Gemini AI API Configuration
-    geminiApiKey: process.env.GEMINI_API_KEY || 'AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY',
+    geminiApiKey: process.env.GEMINI_API_KEY || 'AIzaSyASB7OoJ8bu5qR2hPJ720idezvyNoGN4kY',
     geminiApiUrl: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
     
     // Database Configuration

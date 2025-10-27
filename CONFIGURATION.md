@@ -11,7 +11,7 @@ Create a `.env` file in the root directory with the following content:
 PORT=3001
 
 # Gemini AI API Configuration
-GEMINI_API_KEY=AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY
+GEMINI_API_KEY=AIzaSyASB7OoJ8bu5qR2hPJ720idezvyNoGN4kY
 
 # Database Configuration (for Vercel integration)
 # VERCEL_DATABASE_URL=your_vercel_database_url_here

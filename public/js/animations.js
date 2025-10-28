@@ -26,13 +26,7 @@ class AnimationController {
             duration: 0.5,
             ease: "power2.out"
         })
-        .set('#loading-screen', { display: 'none' })
-        .from('.navbar', {
-            y: -100,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out"
-        }, "-=0.3");
+        .set('#loading-screen', { display: 'none' });
     }
     
     setupHeroAnimations() {

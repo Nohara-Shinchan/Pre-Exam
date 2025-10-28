@@ -13,11 +13,11 @@ if (!fs.existsSync(envPath)) {
     const envContent = `# Environment Variables for Question Paper Repository
 
 # Server Configuration
-PORT=3001
+PORT=3000
 
 # Gemini AI API Configuration
 # Get your API key from: https://makersuite.google.com/app/apikey
-GEMINI_API_KEY=AIzaSyCc3BQ8OTd4nRKw_YgEO9V983FgAJDarKY
+GEMINI_API_KEY=AIzaSyASB7OoJ8bu5qR2hPJ720idezvyNoGN4kY
 
 # Database Configuration (for Vercel integration)
 # VERCEL_DATABASE_URL=your_vercel_database_url_here
@@ -52,5 +52,5 @@ console.log('\n🎉 Setup complete!');
 console.log('\n📋 Next steps:');
 console.log('1. Update your Gemini API key in the .env file');
 console.log('2. Run: node server.js');
-console.log('3. Open: http://localhost:3001');
+console.log('3. Open: http://localhost:3000');
 console.log('\n📚 For more information, see CONFIGURATION.md');
